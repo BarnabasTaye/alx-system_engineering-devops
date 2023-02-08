@@ -1,3 +1,2 @@
 #!/bin/bash
-move C:\tmp\betty C:\tmp\my_first_directory\
-
+mv /tmp/betty /tmp/my_first_directory
