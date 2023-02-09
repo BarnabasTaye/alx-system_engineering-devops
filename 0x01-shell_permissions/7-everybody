@@ -1,2 +1,2 @@
-#!/bin/bash
-sudo a+x hello
+#!/bin/basch
+chmod a+x hello
