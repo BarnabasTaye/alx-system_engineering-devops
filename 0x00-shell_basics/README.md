@@ -1,1 +1,1 @@
-not a file
+this script switches the current user to the user betty.
