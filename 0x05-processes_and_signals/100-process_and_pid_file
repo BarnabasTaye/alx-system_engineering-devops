@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#Traps to get SIGTERM, SIGQUIT, SIGINT
+file=/var/run/myscript.pid
+funQuit()
+{
+        rm $file
+        exit 0
+}
+funTerm()
+{
+        echo "I hate the kill command"
+        rm $file
+        exit 0
+}
+funInt()
+{
+        echo "Y U no love me?!"
+}
+
+trap "funTerm" SIGTERM
+trap "funQuit" SIGQUIT
+trap "funInt" SIGINT
+
+pgrep -f 100-process_and_pid_file >> $file
+while $1
+do
+        echo "To infinity and beyond"
+        sleep 2
+done
