@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Configures new server with text default display, /redirect_me page and
+
+#+    custom 404 page containing "Ceci n'est pas une page".
+
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+
+sudo chown -R $USER:$USER /etc/nginx/
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+
+touch /var/www/html/page_404.html
+echo "Ceci n'est pas une page" > /var/www/html/page_404.html
+
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=hAwpj1ZHHtY;
+    }
+
+    error_page 404 /page_404.html;
+    location /page_404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+sudo service nginx restart
+sudo service nginx reload

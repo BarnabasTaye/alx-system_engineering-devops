@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This Bash script automatically configures a new Ubuntu machine
+
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+
+echo "Hello World!" > /var/www/html/index.html
+cmd="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=hAwpj1ZHHtY;"
+
+sudo sed -i "26i $cmd" /etc/nginx/sites-available/default
+
+sudo service nginx restart
+sudo service nginx reload
