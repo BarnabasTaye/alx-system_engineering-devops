@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# configure HAProxy on the loadbalancer server
+
+sudo apt-get update -y
+sudo apt-get install haproxy -y
+
+server_config=\
+"
+frontend  zakisu_frontend
+        bind *:80
+        mode http
+        default_backend zakisu_backend
+backend  zakisu_backend
+        balance roundrobin
+        mode http
+	server 257577-web-01 54.174.136.120:80 check
+        server 257577-web-02 34.207.188.128:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
