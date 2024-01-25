@@ -1,0 +1,48 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By '257577-web-01';
+    root /home/ubuntu/AirBnB_clone_v4/web_dynamic;
+    index index.html index.htm;
+
+    location  /airbnb-onepage {
+        proxy_pass http://0.0.0.0:5000/airbnb-onepage;
+    }
+
+    location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://0.0.0.0:5001/number_odd_or_even/$1;
+    }
+
+    location /api {
+        proxy_pass http://0.0.0.0:5002/api;
+    }
+
+    location / {
+        proxy_pass http://0.0.0.0:5003/2-hbnb;
+    }
+
+    location /static/ {
+    }
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+        return 301 https://zakisu.vercel.app;
+    }
+
+    error_page 404 /4ge_04.html;
+        location /page_404 {
+            root /var/www/html;
+            internal;
+        }
+    location /nginx_status {
+        stub_status;
+
+        access_log off;
+        allow 127.0.0.1;
+        deny all;
+    }
+}
